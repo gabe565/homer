@@ -23,8 +23,9 @@ RUN addgroup -S ${GROUP} -g ${GID} && adduser -D -S -u ${UID} ${USER} ${GROUP} &
 
 COPY --from=build-stage --chown=${USER}:${GROUP} /app/dist /www/
 COPY --chown=${USER}:${GROUP} entrypoint.sh /entrypoint.sh
+RUN mv /www/assets /www/default-assets
 
 USER ${USER}
 EXPOSE ${PORT}
-VOLUME [ "/www/config.yml", "/www/assets" ]
+VOLUME [ "/www/assets" ]
 ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]

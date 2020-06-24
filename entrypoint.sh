@@ -1,6 +1,10 @@
 #!/bin/sh
 
-yes n | cp -i /www/config.yml.dist /www/config.yml
-while true; do echo n; done | cp -Ri /app/dist/www/assets /www/assets 2>/dev/null
+while true; do echo n; done | cp -Ri /www/default-assets/* /www/assets/
+
+# Ensure compatibility with previous version (config.yml was in the root directory)
+if [ -f "/www/config.yml" ]; then
+    yes n | cp -i /www/config.yml /www/assets
+fi
 
 darkhttpd /www/ --no-listing --port $PORT
